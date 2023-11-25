@@ -119,6 +119,9 @@ window.addEventListener("load",  ()=> {
     var elemsModal = document.querySelectorAll('.modal');
     M.Modal.init(elemsModal, null);
 
+    var elems = document.querySelectorAll('select');
+    M.FormSelect.init(elems, null);
+
     let main: Main = new Main();
 
 
