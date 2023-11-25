@@ -16,9 +16,13 @@ class Main implements EventListenerObject{
                     for (let d of datos){
                         // Asigna 'checked' a isChecked si d.state es verdadero, de lo contrario, asigna una cadena vacía.
                         const isChecked = d.state ? 'checked' : '';
+                        // Asigna 'disable' a isChecked si d.state es falso, de lo contrario, asigna una cadena vacía.
+                        //esto se hace para habilitar el range
+                        const isDisabled = d.state ? '' : 'disabled';
                         // Generamos un ID único para el dispositivo
                         const deviceId = `device_${d.id}`;
                         let type: string;
+                        //dependiendo del tipo de dispositivo asignamos un 
                         if(d.type == 1){
                             type = `
                             <div class="switch">
@@ -30,9 +34,18 @@ class Main implements EventListenerObject{
                                 </label>
                             </div>`
                         }else if (d.type == 2){
-                            type = `  <form action="#">
+                            type = `<div class="switch">
+                            <label>
+                                Off
+                                <input type="checkbox" ${isChecked}>
+                                <span class="lever"></span>
+                                On
+                            </label>
+                            </div>
+                            <form action="#">
                             <p class="range-field">
-                                <input type="range" id="test5" min="0" max="100" />
+                                <label>Intensidad</label>
+                                <input type="range" id="test5" min="0" max="100" ${isDisabled}/>
                             </p>
                             </form>`
                         }
