@@ -5,22 +5,6 @@ body {
     flex-direction: column;
 }
 
-div>div.col{
-    background-color: bisque;
-    border: 2px solid black;
-}
-
 main {
     flex: 1 0 auto;
-}
-
-.textoInfo{ /* Solamente se va aplicar a lo que tengan este nombre en la clase*/
-    text-align: center;
-}
-
-.textoError{
-    color: red;
-}
-.textoCorrecto{
-    color: green;
 }
