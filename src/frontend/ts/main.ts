@@ -2,10 +2,10 @@ var M;
 class Main implements EventListenerObject{
 
     constructor() {
-        this.agregarDevices();
+        this.showDevices();
     }
 
-    private agregarDevices(){
+    private showDevices(){
         console.log("hola")
         let xmlRequest = new XMLHttpRequest();
         xmlRequest.onreadystatechange = ()=> {
@@ -39,11 +39,17 @@ class Main implements EventListenerObject{
                             </form>`
                         }
 
-                        div.innerHTML += `<div class="col s12 m6 l4 id=${deviceId}">
+                        let deviceDiv = document.createElement("div"); 
+                        deviceDiv.className = "col s12 m6 l4";
+                        deviceDiv.id = deviceId;
+
+                        deviceDiv.innerHTML += `
                         <h5>${d.name}</h5>
                         <p>${d.description}</p>
                         ${type}
-                        </div>`
+                        `
+                        div.appendChild(deviceDiv);
+                        this.crearBotones(deviceDiv,div)
                     }
                 }
                     
@@ -52,6 +58,38 @@ class Main implements EventListenerObject{
         }
         xmlRequest.open("GET","http://localhost:8000/devices",true); //lo ponemos en true para que se ejecute de forma asincrona
         xmlRequest.send();
+    }
+
+    private editarDevice(){
+        
+    }
+
+    private eliminarDevice(){
+
+    }
+
+    private crearBotones(deviceDiv,div){
+        // Creamos el boton para editar
+        const buttonEditar = document.createElement("button"); 
+        buttonEditar.textContent = "Editar";
+
+        buttonEditar.onclick = () => { 
+            this.editarDevice();
+        };
+
+        // Creamos el boton para eliminar
+        const buttonEliminar = document.createElement("button");
+        buttonEliminar.textContent = "Eliminar";
+
+        //cuando hacemos clic llama a la funcion
+        buttonEliminar.onclick = () => {
+        this.eliminarDevice();
+        };
+
+        deviceDiv.appendChild(buttonEditar); //agrega el boton Editar al final del div
+        deviceDiv.appendChild(buttonEliminar);//agrega el boton Eliminar al final del div
+
+        div.appendChild(deviceDiv);
     }
 
     handleEvent(object: Event): void {
