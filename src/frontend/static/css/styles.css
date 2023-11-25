@@ -8,3 +8,8 @@ body {
 main {
     flex: 1 0 auto;
 }
+
+div>div.col{
+    background-color: bisque;
+    border: 2px solid black;
+}
