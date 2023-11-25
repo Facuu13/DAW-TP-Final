@@ -6,12 +6,10 @@ class Main implements EventListenerObject{
     }
 
     private showDevices(){
-        console.log("hola")
         let xmlRequest = new XMLHttpRequest();
         xmlRequest.onreadystatechange = ()=> {
             if(xmlRequest.readyState == 4){
                 if(xmlRequest.status == 200){
-                    console.log(xmlRequest.responseText, xmlRequest.readyState);
                     let respusta = xmlRequest.responseText;
                     let datos: Array<Device> = JSON.parse(respusta);
                     let div = document.getElementById("listaDisp");
@@ -43,7 +41,7 @@ class Main implements EventListenerObject{
                         deviceDiv.className = "col s12 m6 l4";
                         deviceDiv.id = deviceId;
 
-                        deviceDiv.innerHTML += `
+                        deviceDiv.innerHTML += ` <i class="medium material-icons">ac_unit</i>
                         <h5>${d.name}</h5>
                         <p>${d.description}</p>
                         ${type}
@@ -61,10 +59,22 @@ class Main implements EventListenerObject{
     }
 
     private editarDevice(){
+        //Capaz que el boton tiene que ser un modal para asi editar los valores de los devices
+        //Tener la posibilidad desde el backend de no solo actualizar el valor del estado, sino de
+        //actualizar cualquier valor
         
     }
 
-    private eliminarDevice(){
+    private eliminarDevice(id:string){
+        // Mostrar un mensaje de confirmación
+        const confirmDelete = window.confirm("¿Estás seguro de eliminar este dispositivo?");
+        if (confirmDelete) {
+            console.log("eliminamos device")
+            //llamar al metodo delete
+        }
+        else{
+            //no hacemos nada
+        }
 
     }
 
@@ -83,13 +93,18 @@ class Main implements EventListenerObject{
 
         //cuando hacemos clic llama a la funcion
         buttonEliminar.onclick = () => {
-        this.eliminarDevice();
+        this.eliminarDevice(deviceDiv.id);
         };
 
         deviceDiv.appendChild(buttonEditar); //agrega el boton Editar al final del div
         deviceDiv.appendChild(buttonEliminar);//agrega el boton Eliminar al final del div
 
         div.appendChild(deviceDiv);
+    }
+
+
+    private agregarDevice(){
+
     }
 
     handleEvent(object: Event): void {
