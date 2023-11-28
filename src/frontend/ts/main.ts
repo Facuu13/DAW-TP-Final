@@ -44,7 +44,6 @@ class Main implements EventListenerObject{
                             </div>
                             <form action="#">
                             <p class="range-field">
-                                <label>Intensidad</label>
                                 <input type="range" id="test5" min="0" max="100" ${isDisabled}/>
                             </p>
                             </form>`
@@ -54,7 +53,7 @@ class Main implements EventListenerObject{
                         deviceDiv.className = "col s12 m3 lg3";
                         deviceDiv.id = deviceId;
 
-                        deviceDiv.innerHTML += ` <i class="medium material-icons">ac_unit</i>
+                        deviceDiv.innerHTML += `
                         <h5>${d.name}</h5>
                         <p>${d.description}</p>
                         ${type}
@@ -93,7 +92,8 @@ class Main implements EventListenerObject{
 
     private crearBotones(deviceDiv,div){
         // Creamos el boton para editar
-        const buttonEditar = document.createElement("button"); 
+        const buttonEditar = document.createElement("button");
+        buttonEditar.className="waves-effect waves-teal btn-flat";
         buttonEditar.textContent = "Editar";
 
         buttonEditar.onclick = () => { 
@@ -102,6 +102,7 @@ class Main implements EventListenerObject{
 
         // Creamos el boton para eliminar
         const buttonEliminar = document.createElement("button");
+        buttonEliminar.className="waves-effect waves-teal btn-flat";
         buttonEliminar.textContent = "Eliminar";
 
         //cuando hacemos clic llama a la funcion
