@@ -9,8 +9,10 @@ main {
     flex: 1 0 auto;
 }
 
-div>div.col{
+#listaDisp>div.col{
     background-color: bisque;
     border: 2px solid black;
     margin-bottom: 15px;
+    margin-right: 10px;
+    width: 200px; /* Ancho fijo */
 }

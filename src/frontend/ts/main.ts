@@ -50,7 +50,7 @@ class Main implements EventListenerObject{
                         }
 
                         let deviceDiv = document.createElement("div"); 
-                        deviceDiv.className = "col s12 m3 lg3";
+                        deviceDiv.className = "col s12 m6 lg3";
                         deviceDiv.id = deviceId;
 
                         deviceDiv.innerHTML += `
@@ -123,7 +123,10 @@ class Main implements EventListenerObject{
 
     handleEvent(object: Event): void {
         let elemento = <HTMLElement> object.target;
-        
+        console.log(elemento.id)
+        if("hola" === elemento.id){ //el triple igual me valida el tipo de dato y el valor. El doble igual solamente el valor
+            this.showDevices();
+        }
     }
 
 
@@ -137,6 +140,11 @@ window.addEventListener("load",  ()=> {
     M.FormSelect.init(elems, null);
 
     let main: Main = new Main();
+
+    let botonHola = document.getElementById("hola")
+    botonHola.addEventListener("click",main)
+
+
 
 
 });
