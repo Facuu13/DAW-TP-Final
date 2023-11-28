@@ -12,4 +12,5 @@ main {
 div>div.col{
     background-color: bisque;
     border: 2px solid black;
+    margin-bottom: 15px;
 }

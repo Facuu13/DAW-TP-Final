@@ -51,7 +51,7 @@ class Main implements EventListenerObject{
                         }
 
                         let deviceDiv = document.createElement("div"); 
-                        deviceDiv.className = "col s12 m6 l4";
+                        deviceDiv.className = "col s12 m3 lg3";
                         deviceDiv.id = deviceId;
 
                         deviceDiv.innerHTML += ` <i class="medium material-icons">ac_unit</i>

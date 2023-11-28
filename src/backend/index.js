@@ -36,6 +36,13 @@ app.get('/devices/', function(req, res, next) {
             'state': 1, 
             'type': 1, 
         },
+        { 
+            'id': 4, 
+            'name': 'TV2', 
+            'description': 'Televisor comedor', 
+            'state': 0, 
+            'type': 1, 
+        },
     ]
     res.send(JSON.stringify(devices)).status(200);
 });
