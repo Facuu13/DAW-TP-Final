@@ -13,6 +13,7 @@ class Main implements EventListenerObject{
                     let respusta = xmlRequest.responseText;
                     let datos: Array<Device> = JSON.parse(respusta);
                     let div = document.getElementById("listaDisp");
+                    div.innerHTML = '';
                     for (let d of datos){
                         // Asigna 'checked' a isChecked si d.state es verdadero, de lo contrario, asigna una cadena vacía.
                         const isChecked = d.state ? 'checked' : '';
