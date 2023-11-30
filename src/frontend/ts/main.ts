@@ -21,7 +21,7 @@ class Main implements EventListenerObject{
                         //esto se hace para habilitar el range
                         const isDisabled = d.state ? '' : 'disabled';
                         // Generamos un ID único para el dispositivo
-                        const deviceId = `device_${d.id}`;
+                        const deviceId = `${d.id}`;
                         let type: string;
                         //dependiendo del tipo de dispositivo asignamos un 
                         if(d.type == 0){
@@ -82,8 +82,13 @@ class Main implements EventListenerObject{
         // Mostrar un mensaje de confirmación
         const confirmDelete = window.confirm("¿Estás seguro de eliminar este dispositivo?");
         if (confirmDelete) {
-            console.log("eliminamos device")
-            //llamar al metodo delete
+            const miDiv= document.getElementById(id);
+            if(miDiv){
+                console.log("eliminamos device",id)
+                this.ejecutarDelete(id);
+                this.showDevices(); //refresh
+
+            }
         }
         else{
             //no hacemos nada
@@ -117,9 +122,22 @@ class Main implements EventListenerObject{
         div.appendChild(deviceDiv);
     }
 
-
     private agregarDevice(){
 
+    }
+
+
+    private ejecutarDelete(id:string){
+        let xmlRequest = new XMLHttpRequest();
+        xmlRequest.onreadystatechange = ()=> {
+            if(xmlRequest.readyState == 4){
+                if(xmlRequest.status == 200){
+                }
+            }
+        }
+        const url = `http://localhost:8000/devices/${id}`; // Incorporar el ID en la URL
+        xmlRequest.open("DELETE",url,true); //lo ponemos en true para que se ejecute de forma asincrona
+        xmlRequest.send(null);
     }
 
     handleEvent(object: Event): void {
