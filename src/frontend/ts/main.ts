@@ -1,5 +1,7 @@
 var M;
 class Main implements EventListenerObject{
+    //inicializamos la variable global device
+    device:Device = new Device();
 
     constructor() {
         this.showDevices();
@@ -123,10 +125,56 @@ class Main implements EventListenerObject{
     }
 
     private agregarDevice(){
+        
+        
+        //hacer un objeto devices y buscar todos los valores
+        // Obtener el elemento input por su ID
+        const nombre = document.getElementById("iNombre") as HTMLInputElement;
+        const description = document.getElementById("iDescription") as HTMLInputElement;
+
+        // Obtener el elemento select por su ID
+        const state = document.getElementById("iState") as HTMLSelectElement;
+        const type = document.getElementById("iType") as HTMLSelectElement;
+
+        const n = nombre.value;
+        const d = description.value;
+        const s = Number(state.value);
+        const t = Number(type.value);
+
+        this.device.name = n;
+        this.device.description = d;
+        this.device.state = s;
+        this.device.type =t;
+
+
+        console.log("nombre",n);
+        console.log("descripcion",d);
+        console.log("estado",s);
+        console.log("type",t);
+
+        this.ejecutarPost(this.device); //llamamos al metodo post
+        this.showDevices();//refresh
 
     }
 
+    private ejecutarPost(device:Device){
+        let xmlRequest = new XMLHttpRequest();
+        xmlRequest.onreadystatechange = ()=> {
+            if(xmlRequest.readyState == 4){
+                if(xmlRequest.status == 200){
+                    console.log("llego respuesta",xmlRequest.responseText);
+                }
+            }
 
+        }
+        xmlRequest.open("POST","http://localhost:8000/device",true); //lo ponemos en true para que se ejecute de forma asincrona
+        xmlRequest.setRequestHeader("Content-Type","application/json"); //se indica el formato en el que se va enviar la informacion
+        console.log(device);
+        console.log(JSON.stringify(device))
+        xmlRequest.send(JSON.stringify(device));
+    }
+
+    //Funcion para ejecutar el metodo delete
     private ejecutarDelete(id:string){
         let xmlRequest = new XMLHttpRequest();
         xmlRequest.onreadystatechange = ()=> {
@@ -135,8 +183,8 @@ class Main implements EventListenerObject{
                 }
             }
         }
-        const url = `http://localhost:8000/devices/${id}`; // Incorporar el ID en la URL
-        xmlRequest.open("DELETE",url,true); //lo ponemos en true para que se ejecute de forma asincrona
+        const url = `http://localhost:8000/devices/${id}`; // incorporamos el ID en la URL
+        xmlRequest.open("DELETE",url,true);
         xmlRequest.send(null);
     }
 
@@ -145,6 +193,8 @@ class Main implements EventListenerObject{
         console.log(elemento.id)
         if("hola" === elemento.id){ //el triple igual me valida el tipo de dato y el valor. El doble igual solamente el valor
             this.showDevices();
+        }else if("btnPrueba" === elemento.id){
+            this.agregarDevice();
         }
     }
 
@@ -163,7 +213,8 @@ window.addEventListener("load",  ()=> {
     let botonHola = document.getElementById("hola")
     botonHola.addEventListener("click",main)
 
-
+    let botonPrueba = document.getElementById("btnPrueba")
+    botonPrueba.addEventListener("click",main)
 
 
 });

@@ -13,6 +13,13 @@ app.use(express.static('/home/node/app/static/'));
 
 //=======[ Main module code ]==================================================
 
+app.post('/device',(req,res,next)=>{
+    console.log("Recibida solicitud POST");
+    console.log(req.body)
+    //utils.query("insert into Devices (`id`, `name`, `description`, `state`, `type`) VALUES")
+    utils.query("INSERT INTO Devices VALUES ('" + 0 + "','" + req.body.name + "', '" + req.body.description + "','" + req.body.state + "','" + req.body.type + "' )")
+});
+
 app.delete('/devices/:id',(req,res,next)=>{
     console.log("Recibida solicitud DELETE: ",req.params.id)
     utils.query("select id from Devices where id =" + req.params.id,(err,rsp,fields)=>{

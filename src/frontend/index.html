@@ -7,6 +7,7 @@
       <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
       <script type="text/javascript" src="./static/js/materialize.min.js"></script>
       <script type="text/javascript" src="js/main.js"></script>
+      <script type="text/javascript" src="js/device.js"></script>
       <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </head>
     <body>
@@ -41,23 +42,24 @@
                             <input id="iDescription" type="text" placeholder="Luz living" value="" />
                         </div>
                         <div class="input-field">
-                            <select>
+                            <select id="iState">
                                 <option value="" disabled selected>Estado del dispositivo</option>
+                                <option value="0">Apagado</option>
                                 <option value="1">Encendido</option>
-                                <option value="2">Apagado</option>
                             </select>
                         </div>
                         <div class="input-field">
-                            <select>
-                                <option value="" disabled selected>Tipo</option>
-                                <option value="1">Checkbox</option>
-                                <option value="2">Range</option>
+                            <select id="iType">
+                                <option value="" disabled selected>Manejar intensidad?</option>
+                                <option value="0">No</option>
+                                <option value="1">Si</option>
                             </select>
                         </div>
                         
                     </div>
                     <div class="modal-footer">
                         <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+                        <button id="btnPrueba">prueba</button>
                     </div>
                 </div>
 
