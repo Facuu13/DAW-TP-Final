@@ -25,36 +25,27 @@ class Main implements EventListenerObject{
                         // Generamos un ID único para el dispositivo
                         const deviceId = `${d.id}`;
                         let type: string;
-                        //dependiendo del tipo de dispositivo asignamos un 
-                        if(d.type == 0){
-                            type = `
-                            <div class="switch">
-                                <label>
-                                    Off
-                                    <input type="checkbox" ${isChecked}>
-                                    <span class="lever"></span>
-                                    On
-                                </label>
-                            </div>`
-                        }else if (d.type == 1){
-                            type = `<div class="switch">
+                        
+                        let deviceDiv = document.createElement("div"); 
+                        deviceDiv.className = "col s12 m6 lg3";
+                        deviceDiv.id = deviceId;
+
+                        type = `
+                        <div class="switch">
                             <label>
                                 Off
                                 <input type="checkbox" ${isChecked}>
                                 <span class="lever"></span>
                                 On
                             </label>
-                            </div>
-                            <form action="#">
+                        </div>`
+                        if(d.type == 1){
+                            type += `<form action="#">
                             <p class="range-field">
                                 <input type="range" id="test5" min="0" max="100" ${isDisabled}/>
                             </p>
                             </form>`
                         }
-
-                        let deviceDiv = document.createElement("div"); 
-                        deviceDiv.className = "col s12 m6 lg3";
-                        deviceDiv.id = deviceId;
 
                         deviceDiv.innerHTML += `
                         <h5>${d.name}</h5>
@@ -154,6 +145,7 @@ class Main implements EventListenerObject{
 
         this.ejecutarPost(this.device); //llamamos al metodo post
         this.showDevices();//refresh
+        
 
     }
 
@@ -169,8 +161,6 @@ class Main implements EventListenerObject{
         }
         xmlRequest.open("POST","http://localhost:8000/device",true); //lo ponemos en true para que se ejecute de forma asincrona
         xmlRequest.setRequestHeader("Content-Type","application/json"); //se indica el formato en el que se va enviar la informacion
-        console.log(device);
-        console.log(JSON.stringify(device))
         xmlRequest.send(JSON.stringify(device));
     }
 
@@ -191,9 +181,9 @@ class Main implements EventListenerObject{
     handleEvent(object: Event): void {
         let elemento = <HTMLElement> object.target;
         console.log(elemento.id)
-        if("hola" === elemento.id){ //el triple igual me valida el tipo de dato y el valor. El doble igual solamente el valor
+        if("btnRefresh" === elemento.id){ //el triple igual me valida el tipo de dato y el valor. El doble igual solamente el valor
             this.showDevices();
-        }else if("btnPrueba" === elemento.id){
+        }else if("btnAgregar" === elemento.id){
             this.agregarDevice();
         }
     }
@@ -210,10 +200,10 @@ window.addEventListener("load",  ()=> {
 
     let main: Main = new Main();
 
-    let botonHola = document.getElementById("hola")
+    let botonHola = document.getElementById("btnRefresh")
     botonHola.addEventListener("click",main)
 
-    let botonPrueba = document.getElementById("btnPrueba")
+    let botonPrueba = document.getElementById("btnAgregar")
     botonPrueba.addEventListener("click",main)
 
 
