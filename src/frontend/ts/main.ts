@@ -24,7 +24,7 @@ class Main implements EventListenerObject{
                         const deviceId = `device_${d.id}`;
                         let type: string;
                         //dependiendo del tipo de dispositivo asignamos un 
-                        if(d.type == 1){
+                        if(d.type == 0){
                             type = `
                             <div class="switch">
                                 <label>
@@ -34,7 +34,7 @@ class Main implements EventListenerObject{
                                     On
                                 </label>
                             </div>`
-                        }else if (d.type == 2){
+                        }else if (d.type == 1){
                             type = `<div class="switch">
                             <label>
                                 Off

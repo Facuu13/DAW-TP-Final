@@ -13,38 +13,17 @@ app.use(express.static('/home/node/app/static/'));
 
 //=======[ Main module code ]==================================================
 
-app.get('/devices/', function(req, res, next) {
-    devices = [
-        { 
-            'id': 1, 
-            'name': 'Lampara 1', 
-            'description': 'Luz living', 
-            'state': 0, 
-            'type': 1, 
-        },
-        { 
-            'id': 2, 
-            'name': 'Ventilador 1', 
-            'description': 'Ventilador Habitacion', 
-            'state': 1, 
-            'type': 2, 
-        },
-        { 
-            'id': 3, 
-            'name': 'TV', 
-            'description': 'Televisor Habitacion', 
-            'state': 1, 
-            'type': 1, 
-        },
-        { 
-            'id': 4, 
-            'name': 'TV2', 
-            'description': 'Televisor comedor', 
-            'state': 0, 
-            'type': 1, 
-        },
-    ]
-    res.send(JSON.stringify(devices)).status(200);
+app.get('/devices/',(req,res,next)=>{
+    utils.query("select * from Devices",(err,rsp,fields)=>{
+        if(err==null){ //devuelve null cuando la query es correcta
+            console.log("rps",rsp);
+            res.status(200).send(JSON.stringify(rsp));
+        }else{
+            console.log("err",err.Error);
+            res.status(409).send(err.Error);
+        }
+        
+    });
 });
 
 app.listen(PORT, function(req, res) {
