@@ -17,3 +17,7 @@ main {
     width: 200px; /* Ancho fijo */
     height: 220px;
 }
+
+.blue{
+    background-color: blue;
+}
