@@ -54,6 +54,7 @@ class Main implements EventListenerObject{
                         `
                         div.appendChild(deviceDiv);
                         this.crearBotones(deviceDiv,div)
+
                     }
                 }
                     
@@ -68,6 +69,8 @@ class Main implements EventListenerObject{
         //Capaz que el boton tiene que ser un modal para asi editar los valores de los devices
         //Tener la posibilidad desde el backend de no solo actualizar el valor del estado, sino de
         //actualizar cualquier valor
+        console.log("en editar");
+
         
     }
 
@@ -90,14 +93,52 @@ class Main implements EventListenerObject{
     }
 
     private crearBotones(deviceDiv,div){
-        // Creamos el boton para editar
-        const buttonEditar = document.createElement("button");
-        buttonEditar.className="waves-effect waves-teal btn-flat";
-        buttonEditar.textContent = "Editar";
+        // Creamos el boton para editar como modal
 
-        buttonEditar.onclick = () => { 
-            this.editarDevice();
-        };
+        const a = document.createElement("a");
+        a.className = "waves-effect waves-teal btn-flat modal-trigger";
+        a.href = "#modal2";
+        a.textContent = "Editar";
+
+        let btn_edit_id : string;
+        btn_edit_id = `btnEditar_${deviceDiv.id}`;
+
+        // HTML del modal
+        const htmlModal = `
+        <div id="modal2" class="modal" style="display: none;">
+            <div class="modal-content">
+                <h4>Editar dispositivo</h4>
+                    <div class="input-field">
+                        <label for="eNombre">Nombre del dispositivo</label>
+                        <input id="eNombre" type="text" placeholder="Lampara 2" value="" />
+                    </div>
+                    <div class="input-field">
+                        <label for="eDescription">Descripción del dispositivo</label>
+                        <input id="eDescription" type="text" placeholder="Luz living" value="" />
+                    </div>
+                    <div class="input-field">
+                        <select id="iState">
+                            <option value="" disabled selected>Estado del dispositivo</option>
+                            <option value="0">Apagado</option>
+                            <option value="1">Encendido</option>
+                        </select>
+                    </div>
+                    <div class="input-field">
+                        <select id="iType">
+                            <option value="" disabled selected>Manejar intensidad?</option>
+                            <option value="0">No</option>
+                            <option value="1">Si</option>
+                        </select>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class="modal-close waves-effect waves-green btn-flat">Cancelar</a>
+                <button class="modal-close waves-effect waves-green btn-flat" id="${btn_edit_id}">Guardar</button>
+            </div>
+        </div>
+        `;
+
+        
 
         // Creamos el boton para eliminar
         const buttonEliminar = document.createElement("button");
@@ -109,10 +150,26 @@ class Main implements EventListenerObject{
         this.eliminarDevice(deviceDiv.id);
         };
 
-        deviceDiv.appendChild(buttonEditar); //agrega el boton Editar al final del div
+        deviceDiv.appendChild(a);  //Agregamos el modal
+        deviceDiv.innerHTML += htmlModal;
+
+        // Inicializar el modal dinámico después de agregarlo al DOM
+        const modalElement = deviceDiv.querySelector('#modal2');
+        M.Modal.init(modalElement, null);
+
+        // Inicializar los selects dentro del modal
+        const selectElements = deviceDiv.querySelectorAll('select');
+        M.FormSelect.init(selectElements, null);
+        
         deviceDiv.appendChild(buttonEliminar);//agrega el boton Eliminar al final del div
 
         div.appendChild(deviceDiv);
+
+        //Asignamos la funcion al boton guardar de editar
+        let botonEditar = document.getElementById(btn_edit_id)
+        botonEditar.addEventListener("click",()=>{
+            this.editarDevice();
+        })
     }
 
     private agregarDevice(){
@@ -188,7 +245,6 @@ class Main implements EventListenerObject{
         }
     }
 
-
 }
 window.addEventListener("load",  ()=> {
 
@@ -200,11 +256,10 @@ window.addEventListener("load",  ()=> {
 
     let main: Main = new Main();
 
-    let botonHola = document.getElementById("btnRefresh")
-    botonHola.addEventListener("click",main)
+    let botonRefresh = document.getElementById("btnRefresh")
+    botonRefresh.addEventListener("click",main)
 
-    let botonPrueba = document.getElementById("btnAgregar")
-    botonPrueba.addEventListener("click",main)
-
+    let botonAgregar = document.getElementById("btnAgregar")
+    botonAgregar.addEventListener("click",main)
 
 });
