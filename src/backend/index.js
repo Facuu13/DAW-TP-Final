@@ -13,6 +13,18 @@ app.use(express.static('/home/node/app/static/'));
 
 //=======[ Main module code ]==================================================
 
+app.put('/devices/:id',(req,res,next)=>{
+    console.log("Recibida solicitud PUT");
+    const deviceId = req.params.id; // Obtener el ID del dispositivo desde la URL
+    const { name, description, state, type } = req.body; // Obtener los datos actualizados desde el cuerpo de la solicitud
+
+    // Construir la consulta SQL de actualización
+    const sqlQuery = `UPDATE Devices SET name='${name}', description='${description}', state='${state}', type='${type}' WHERE id=${deviceId}`;
+
+    utils.query(sqlQuery);
+
+});
+
 app.post('/device',(req,res,next)=>{
     console.log("Recibida solicitud POST");
     console.log(req.body)

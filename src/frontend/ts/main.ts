@@ -53,7 +53,7 @@ class Main implements EventListenerObject{
                         ${type}
                         `
                         div.appendChild(deviceDiv);
-                        this.crearBotones(deviceDiv,div)
+                        this.crearBotones(deviceDiv,div,d);
 
                     }
                 }
@@ -65,11 +65,42 @@ class Main implements EventListenerObject{
         xmlRequest.send();
     }
 
-    private editarDevice(){
+    private editarDevice(device){
         //Capaz que el boton tiene que ser un modal para asi editar los valores de los devices
         //Tener la posibilidad desde el backend de no solo actualizar el valor del estado, sino de
         //actualizar cualquier valor
         console.log("en editar");
+        console.log(device);
+
+        //hacer un objeto devices y buscar todos los valores
+        // Obtener el elemento input por su ID
+        const nombre = document.getElementById("eNombre") as HTMLInputElement;
+        const description = document.getElementById("eDescription") as HTMLInputElement;
+
+        // Obtener el elemento select por su ID
+        const state = document.getElementById("eState") as HTMLSelectElement;
+        const type = document.getElementById("eType") as HTMLSelectElement;
+
+        const n = nombre.value;
+        const d = description.value;
+        const s = Number(state.value);
+        const t = Number(type.value);
+
+        this.device.name = n;
+        this.device.description = d;
+        this.device.state = s;
+        this.device.type =t;
+
+
+
+        console.log("nombre",n);
+        console.log("descripcion",d);
+        console.log("estado",s);
+        console.log("type",t);
+
+
+        this.ejecutarPUT(this.device,device.id);
+        this.showDevices();//refresh
 
         
     }
@@ -92,7 +123,7 @@ class Main implements EventListenerObject{
 
     }
 
-    private crearBotones(deviceDiv,div){
+    private crearBotones(deviceDiv,div,d){
         // Creamos el boton para editar como modal
 
         const a = document.createElement("a");
@@ -117,14 +148,14 @@ class Main implements EventListenerObject{
                         <input id="eDescription" type="text" placeholder="Luz living" value="" />
                     </div>
                     <div class="input-field">
-                        <select id="iState">
+                        <select id="eState">
                             <option value="" disabled selected>Estado del dispositivo</option>
                             <option value="0">Apagado</option>
                             <option value="1">Encendido</option>
                         </select>
                     </div>
                     <div class="input-field">
-                        <select id="iType">
+                        <select id="eType">
                             <option value="" disabled selected>Manejar intensidad?</option>
                             <option value="0">No</option>
                             <option value="1">Si</option>
@@ -168,7 +199,7 @@ class Main implements EventListenerObject{
         //Asignamos la funcion al boton guardar de editar
         let botonEditar = document.getElementById(btn_edit_id)
         botonEditar.addEventListener("click",()=>{
-            this.editarDevice();
+            this.editarDevice(d);
         })
     }
 
@@ -234,6 +265,25 @@ class Main implements EventListenerObject{
         xmlRequest.open("DELETE",url,true);
         xmlRequest.send(null);
     }
+
+    //Funcion para ejecutar el metodo put
+    private ejecutarPUT(device:Device,id:string){
+        console.log(id)
+        let xmlRequest = new XMLHttpRequest();
+        xmlRequest.onreadystatechange = ()=> {
+            if(xmlRequest.readyState == 4){
+                if(xmlRequest.status == 200){
+                    console.log("llego put",xmlRequest.responseText);
+                }
+            }
+        }
+        const url = `http://localhost:8000/devices/${id}`; // incorporamos el ID en la URL
+        xmlRequest.open("PUT",url,true);
+        xmlRequest.setRequestHeader("Content-Type","application/json"); //se indica el formato en el que se va enviar la informacion
+        xmlRequest.send(JSON.stringify(device));
+    }
+
+
 
     handleEvent(object: Event): void {
         let elemento = <HTMLElement> object.target;
