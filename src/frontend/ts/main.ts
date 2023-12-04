@@ -7,6 +7,7 @@ class Main implements EventListenerObject{
         this.showDevices();
     }
 
+    //Funcion que sirve para mostrar los dispositivos y para hacer un refresh
     private showDevices(){
         let xmlRequest = new XMLHttpRequest();
         xmlRequest.onreadystatechange = ()=> {
@@ -65,46 +66,32 @@ class Main implements EventListenerObject{
         xmlRequest.send();
     }
 
-    private editarDevice(device){
-        //Capaz que el boton tiene que ser un modal para asi editar los valores de los devices
-        //Tener la posibilidad desde el backend de no solo actualizar el valor del estado, sino de
-        //actualizar cualquier valor
-        console.log("en editar");
-        console.log(device);
-
-        //hacer un objeto devices y buscar todos los valores
+    //Funcion para editar los valores de un dispositivos
+    private editarDevice(device:Device,name_id:string,desc_id:string,state_id:string,type_id:string){
         // Obtener el elemento input por su ID
-        const nombre = document.getElementById("eNombre") as HTMLInputElement;
-        const description = document.getElementById("eDescription") as HTMLInputElement;
-
+        const nombre = document.getElementById(`${name_id}`) as HTMLInputElement;
+        const description = document.getElementById(`${desc_id}`) as HTMLInputElement;
         // Obtener el elemento select por su ID
-        const state = document.getElementById("eState") as HTMLSelectElement;
-        const type = document.getElementById("eType") as HTMLSelectElement;
-
+        const state = document.getElementById(`${state_id}`) as HTMLSelectElement;
+        const type = document.getElementById(`${type_id}`) as HTMLSelectElement;
+        //Obtenemos los valores
         const n = nombre.value;
         const d = description.value;
         const s = Number(state.value);
         const t = Number(type.value);
-
+        //actualizamos los valores
         this.device.name = n;
         this.device.description = d;
         this.device.state = s;
         this.device.type =t;
 
-
-
-        console.log("nombre",n);
-        console.log("descripcion",d);
-        console.log("estado",s);
-        console.log("type",t);
-
-
-        this.ejecutarPUT(this.device,device.id);
+        this.ejecutarPUT(this.device,device.id); //llamamos al metodo put para actualizar los valores
         this.showDevices();//refresh
 
         
     }
 
+    //Funcion para eliminar un dispositivo
     private eliminarDevice(id:string){
         // Mostrar un mensaje de confirmación
         const confirmDelete = window.confirm("¿Estás seguro de eliminar este dispositivo?");
@@ -123,39 +110,58 @@ class Main implements EventListenerObject{
 
     }
 
+    //Funcion para crear los botones de los dispositivos
     private crearBotones(deviceDiv,div,d){
-        // Creamos el boton para editar como modal
+        
+        //creamos una variable para la id del modal
+        let modal_id: string;
+        modal_id = `modal${deviceDiv.id}`;
 
+        // Creamos el boton para editar como modal
         const a = document.createElement("a");
         a.className = "waves-effect waves-teal btn-flat modal-trigger";
-        a.href = "#modal2";
+        a.href = `#${modal_id}`;
         a.textContent = "Editar";
 
+        //Id unica para cada boton de editar
         let btn_edit_id : string;
         btn_edit_id = `btnEditar_${deviceDiv.id}`;
 
+        //id unicas para el modal
+        let name_id : string;
+        name_id = `eNombre${deviceDiv.id}`;
+
+        let desc_id : string;
+        desc_id = `eDescription${deviceDiv.id}`;
+
+        let state_id : string;
+        state_id = `eState${deviceDiv.id}`;
+
+        let type_id : string;
+        type_id = `eType${deviceDiv.id}`;
+
         // HTML del modal
         const htmlModal = `
-        <div id="modal2" class="modal" style="display: none;">
+        <div id="${modal_id}" class="modal" style="display: none;">
             <div class="modal-content">
                 <h4>Editar dispositivo</h4>
                     <div class="input-field">
-                        <label for="eNombre">Nombre del dispositivo</label>
-                        <input id="eNombre" type="text" placeholder="Lampara 2" value="" />
+                        <label for="${name_id}">Nombre del dispositivo</label>
+                        <input id="${name_id}" type="text" placeholder="Lampara 2" value="" />
                     </div>
                     <div class="input-field">
-                        <label for="eDescription">Descripción del dispositivo</label>
-                        <input id="eDescription" type="text" placeholder="Luz living" value="" />
+                        <label for="${desc_id}">Descripción del dispositivo</label>
+                        <input id="${desc_id}" type="text" placeholder="Luz living" value="" />
                     </div>
                     <div class="input-field">
-                        <select id="eState">
+                        <select id="${state_id}">
                             <option value="" disabled selected>Estado del dispositivo</option>
                             <option value="0">Apagado</option>
                             <option value="1">Encendido</option>
                         </select>
                     </div>
                     <div class="input-field">
-                        <select id="eType">
+                        <select id="${type_id}">
                             <option value="" disabled selected>Manejar intensidad?</option>
                             <option value="0">No</option>
                             <option value="1">Si</option>
@@ -185,7 +191,7 @@ class Main implements EventListenerObject{
         deviceDiv.innerHTML += htmlModal;
 
         // Inicializar el modal dinámico después de agregarlo al DOM
-        const modalElement = deviceDiv.querySelector('#modal2');
+        const modalElement = deviceDiv.querySelector(`#${modal_id}`);
         M.Modal.init(modalElement, null);
 
         // Inicializar los selects dentro del modal
@@ -199,22 +205,19 @@ class Main implements EventListenerObject{
         //Asignamos la funcion al boton guardar de editar
         let botonEditar = document.getElementById(btn_edit_id)
         botonEditar.addEventListener("click",()=>{
-            this.editarDevice(d);
+            this.editarDevice(d,name_id,desc_id,state_id,type_id);
         })
     }
 
     private agregarDevice(){
-        
-        
-        //hacer un objeto devices y buscar todos los valores
         // Obtener el elemento input por su ID
         const nombre = document.getElementById("iNombre") as HTMLInputElement;
         const description = document.getElementById("iDescription") as HTMLInputElement;
-
         // Obtener el elemento select por su ID
         const state = document.getElementById("iState") as HTMLSelectElement;
         const type = document.getElementById("iType") as HTMLSelectElement;
 
+        //Obtenemos los valores del modal
         const n = nombre.value;
         const d = description.value;
         const s = Number(state.value);
@@ -225,18 +228,13 @@ class Main implements EventListenerObject{
         this.device.state = s;
         this.device.type =t;
 
-
-        console.log("nombre",n);
-        console.log("descripcion",d);
-        console.log("estado",s);
-        console.log("type",t);
-
-        this.ejecutarPost(this.device); //llamamos al metodo post
+        this.ejecutarPost(this.device); //llamamos al metodo post para agregar el nuevo dispositivo
         this.showDevices();//refresh
         
 
     }
 
+    //Funcion para ejecutar el metodo POST
     private ejecutarPost(device:Device){
         let xmlRequest = new XMLHttpRequest();
         xmlRequest.onreadystatechange = ()=> {
@@ -252,7 +250,7 @@ class Main implements EventListenerObject{
         xmlRequest.send(JSON.stringify(device));
     }
 
-    //Funcion para ejecutar el metodo delete
+    //Funcion para ejecutar el metodo DELETE
     private ejecutarDelete(id:string){
         let xmlRequest = new XMLHttpRequest();
         xmlRequest.onreadystatechange = ()=> {
@@ -266,8 +264,8 @@ class Main implements EventListenerObject{
         xmlRequest.send(null);
     }
 
-    //Funcion para ejecutar el metodo put
-    private ejecutarPUT(device:Device,id:string){
+    //Funcion para ejecutar el metodo PUT
+    private ejecutarPUT(device:Device,id:number){
         console.log(id)
         let xmlRequest = new XMLHttpRequest();
         xmlRequest.onreadystatechange = ()=> {

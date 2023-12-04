@@ -18,7 +18,7 @@ app.put('/devices/:id',(req,res,next)=>{
     const deviceId = req.params.id; // Obtener el ID del dispositivo desde la URL
     const { name, description, state, type } = req.body; // Obtener los datos actualizados desde el cuerpo de la solicitud
 
-    // Construir la consulta SQL de actualización
+    // Construimos la consulta SQL 
     const sqlQuery = `UPDATE Devices SET name='${name}', description='${description}', state='${state}', type='${type}' WHERE id=${deviceId}`;
 
     utils.query(sqlQuery);
