@@ -266,7 +266,6 @@ class Main implements EventListenerObject{
 
     //Funcion para ejecutar el metodo PUT
     private ejecutarPUT(device:Device,id:number){
-        console.log(id)
         let xmlRequest = new XMLHttpRequest();
         xmlRequest.onreadystatechange = ()=> {
             if(xmlRequest.readyState == 4){
