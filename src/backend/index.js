@@ -34,7 +34,14 @@ app.put('/devices/:id',(req,res,next)=>{
 app.post('/device',(req,res,next)=>{
     console.log("Recibida solicitud POST");
     //utils.query("insert into Devices (`id`, `name`, `description`, `state`, `type`) VALUES")
-    utils.query("INSERT INTO Devices VALUES ('" + 0 + "','" + req.body.name + "', '" + req.body.description + "','" + req.body.state + "','" + req.body.type + "' )")
+    utils.query("INSERT INTO Devices VALUES ('" + 0 + "','" + req.body.name + "', '" + req.body.description + "','" + req.body.state + "','" + req.body.type + "' )",(err,rsp,fields)=>{
+        if(err==null){
+            res.status(200).send("Se agrego el device correctamente");
+        }else{
+            console.log("Error al insertar el dispositivo.")
+            res.status(404).send("Error al insertar el dispositivo.");
+        }
+    })
 });
 
 app.delete('/devices/:id',(req,res,next)=>{

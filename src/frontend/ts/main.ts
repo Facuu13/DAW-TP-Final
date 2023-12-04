@@ -4,7 +4,8 @@ class Main implements EventListenerObject{
     device:Device = new Device();
 
     constructor() {
-        this.showDevices();
+        this.showDevices(); //Llamamos la funcion de mostrar dispositivos para 
+        //que cuando inicie la pagina, se muestren de manera automatica
     }
 
     //Funcion que sirve para mostrar los dispositivos y para hacer un refresh
@@ -86,9 +87,7 @@ class Main implements EventListenerObject{
         this.device.type =t;
 
         this.ejecutarPUT(this.device,device.id); //llamamos al metodo put para actualizar los valores
-        this.showDevices();//refresh
-
-        
+        this.showDevices();//refresh   
     }
 
     //Funcion para eliminar un dispositivo
@@ -140,7 +139,7 @@ class Main implements EventListenerObject{
         let type_id : string;
         type_id = `eType${deviceDiv.id}`;
 
-        // HTML del modal
+        // se generala el html del modal de manera dinamica para cada device
         const htmlModal = `
         <div id="${modal_id}" class="modal" style="display: none;">
             <div class="modal-content">
@@ -175,8 +174,6 @@ class Main implements EventListenerObject{
         </div>
         `;
 
-        
-
         // Creamos el boton para eliminar
         const buttonEliminar = document.createElement("button");
         buttonEliminar.className="waves-effect waves-teal btn-flat";
@@ -209,6 +206,7 @@ class Main implements EventListenerObject{
         })
     }
 
+    //Funcion para agregar nuevos dispositivos
     private agregarDevice(){
         // Obtener el elemento input por su ID
         const nombre = document.getElementById("iNombre") as HTMLInputElement;
@@ -230,8 +228,6 @@ class Main implements EventListenerObject{
 
         this.ejecutarPost(this.device); //llamamos al metodo post para agregar el nuevo dispositivo
         this.showDevices();//refresh
-        
-
     }
 
     //Funcion para ejecutar el metodo POST
@@ -285,7 +281,7 @@ class Main implements EventListenerObject{
     handleEvent(object: Event): void {
         let elemento = <HTMLElement> object.target;
         console.log(elemento.id)
-        if("btnRefresh" === elemento.id){ //el triple igual me valida el tipo de dato y el valor. El doble igual solamente el valor
+        if("btnRefresh" === elemento.id){
             this.showDevices();
         }else if("btnAgregar" === elemento.id){
             this.agregarDevice();
@@ -301,6 +297,7 @@ window.addEventListener("load",  ()=> {
     var elems = document.querySelectorAll('select');
     M.FormSelect.init(elems, null);
 
+    // Creamos una instancia de la clase Main
     let main: Main = new Main();
 
     let botonRefresh = document.getElementById("btnRefresh")
