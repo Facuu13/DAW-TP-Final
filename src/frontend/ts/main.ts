@@ -31,12 +31,14 @@ class Main implements EventListenerObject{
                         let deviceDiv = document.createElement("div"); 
                         deviceDiv.className = "col s12 m6 lg3";
                         deviceDiv.id = deviceId;
+                        // Generamos un ID único para el checkbox basado en el ID del dispositivo
+                        const checkboxId = `cb_${d.id}`;
 
                         type = `
                         <div class="switch">
                             <label>
                                 Off
-                                <input type="checkbox" ${isChecked}>
+                                <input type="checkbox" id="${checkboxId}" ${isChecked}>
                                 <span class="lever"></span>
                                 On
                             </label>
@@ -57,6 +59,11 @@ class Main implements EventListenerObject{
                         div.appendChild(deviceDiv);
                         this.crearBotones(deviceDiv,div,d);
 
+                    }
+
+                    for(let d of datos){
+                        let checkbox = document.getElementById(`cb_${d.id}`);
+                        checkbox.addEventListener("click",this);
                     }
                 }
                     
@@ -230,7 +237,7 @@ class Main implements EventListenerObject{
         this.showDevices();//refresh
     }
 
-    //Funcion para ejecutar el metodo POST
+    //Funcion para ejecutar el metodo POST para agregar un nuevo dispositivo
     private ejecutarPost(device:Device){
         let xmlRequest = new XMLHttpRequest();
         xmlRequest.onreadystatechange = ()=> {
@@ -244,6 +251,24 @@ class Main implements EventListenerObject{
         xmlRequest.open("POST","http://localhost:8000/device",true); //lo ponemos en true para que se ejecute de forma asincrona
         xmlRequest.setRequestHeader("Content-Type","application/json"); //se indica el formato en el que se va enviar la informacion
         xmlRequest.send(JSON.stringify(device));
+    }
+
+    //Funcion para ejecutar el metodo POST para actualizar el state de los dispositivo
+    private ejecutarPost2(id:number,state:boolean){
+        let xmlRequest = new XMLHttpRequest();
+        xmlRequest.onreadystatechange = ()=> {
+            if(xmlRequest.readyState == 4){
+                if(xmlRequest.status == 200){
+                    console.log("llego respuesta",xmlRequest.responseText);
+                }
+            }
+
+        }
+        xmlRequest.open("POST","http://localhost:8000/deviceState",true); //lo ponemos en true para que se ejecute de forma asincrona
+        xmlRequest.setRequestHeader("Content-Type","application/json"); //se indica el formato en el que se va enviar la informacion
+        let s = {id:id,
+                state:state};
+        xmlRequest.send(JSON.stringify(s));
     }
 
     //Funcion para ejecutar el metodo DELETE
@@ -285,6 +310,11 @@ class Main implements EventListenerObject{
             this.showDevices();
         }else if("btnAgregar" === elemento.id){
             this.agregarDevice();
+        }else if(elemento.id.startsWith("cb_")){ //elemento.checked para saber si esta en true o false
+            let checkbox = <HTMLInputElement>elemento; //casteamos
+            console.log(checkbox.checked,elemento.id.substring(3,4))
+            this.ejecutarPost2(Number(elemento.id.substring(3,elemento.id.length)),checkbox.checked);
+            this.showDevices(); //refresh
         }
     }
 

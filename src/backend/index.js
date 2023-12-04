@@ -31,9 +31,9 @@ app.put('/devices/:id',(req,res,next)=>{
     });
 });
 
+// app_post para agregar un nuevo dispositivo
 app.post('/device',(req,res,next)=>{
-    console.log("Recibida solicitud POST");
-    //utils.query("insert into Devices (`id`, `name`, `description`, `state`, `type`) VALUES")
+    console.log("Recibida solicitud POST para agregar un nuevo device");
     utils.query("INSERT INTO Devices VALUES ('" + 0 + "','" + req.body.name + "', '" + req.body.description + "','" + req.body.state + "','" + req.body.type + "' )",(err,rsp,fields)=>{
         if(err==null){
             res.status(200).send("Se agrego el device correctamente");
@@ -42,6 +42,16 @@ app.post('/device',(req,res,next)=>{
             res.status(404).send("Error al insertar el dispositivo.");
         }
     })
+});
+// app_post para actualizar el state de un dispositivo
+app.post('/deviceState',(req,res,next)=>{
+    console.log("Recibida solicitud POST actualizar el estado del device");
+    utils.query("UPDATE Devices SET state = "+req.body.state+" WHERE id = "+req.body.id);
+    if(req.body.name == ""){
+        res.status(409).send("no tengo nada que hacer")
+    }else{
+        res.status(200).send("Se actualizo el estado del dispositivo")
+    }
 });
 
 app.delete('/devices/:id',(req,res,next)=>{
