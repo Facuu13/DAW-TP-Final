@@ -11,13 +11,19 @@ main {
 
 #listaDisp>div.col{
     background-color: bisque;
-    border: 2px solid black;
+    border: 2px black;
     margin-bottom: 15px;
     margin-right: 10px;
-    width: 200px; /* Ancho fijo */
-    height: 220px;
+    width: 250px; /* Ancho fijo */
+    height: 250px;
 }
 
+/*Formato para el boton Agregar dispositivos*/
 .blue{
     background-color: blue;
+    margin-bottom: 10px;
+}
+
+#btnRefresh{
+    margin-left: 20px;
 }

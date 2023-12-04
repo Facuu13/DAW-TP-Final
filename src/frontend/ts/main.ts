@@ -34,6 +34,10 @@ class Main implements EventListenerObject{
                         // Generamos un ID único para el checkbox basado en el ID del dispositivo
                         const checkboxId = `cb_${d.id}`;
 
+                        //dependiendo del estado, se va ir alternando el icono de encendido o apagado
+                        const icon= d.state ? 'flash_on' : 'flash_off';;
+
+
                         type = `
                         <div class="switch">
                             <label>
@@ -51,8 +55,8 @@ class Main implements EventListenerObject{
                             </form>`
                         }
 
-                        deviceDiv.innerHTML += `
-                        <h5>${d.name}</h5>
+                        deviceDiv.innerHTML += `<i class="small material-icons">${icon}</i>
+                        <h4>${d.name}</h4>
                         <p>${d.description}</p>
                         ${type}
                         `
