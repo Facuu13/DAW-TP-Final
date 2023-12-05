@@ -10,20 +10,38 @@ main {
 }
 
 #listaDisp>div.col{
-    background-color: bisque;
+    background-color: #124580;
     border: 2px black;
     margin-bottom: 15px;
     margin-right: 10px;
     width: 250px; /* Ancho fijo */
     height: 250px;
+    color: white;
 }
 
 /*Formato para el boton Agregar dispositivos*/
 .blue{
-    background-color: blue;
+    
     margin-bottom: 10px;
+}
+
+.label-checkbox{
+    color: white;
 }
 
 #btnRefresh{
     margin-left: 20px;
+}
+
+.device-container{
+    height: 188px;
+    margin-top: 10px;
+}
+
+h4{
+    margin: auto;
+}
+
+button{
+    text-transform: none;
 }

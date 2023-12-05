@@ -40,7 +40,7 @@ class Main implements EventListenerObject{
 
                         type = `
                         <div class="switch">
-                            <label>
+                            <label class=label-checkbox>
                                 Off
                                 <input type="checkbox" id="${checkboxId}" ${isChecked}>
                                 <span class="lever"></span>
@@ -55,11 +55,11 @@ class Main implements EventListenerObject{
                             </form>`
                         }
 
-                        deviceDiv.innerHTML += `<i class="small material-icons">${icon}</i>
+                        deviceDiv.innerHTML += `<div class=device-container><i class="small material-icons">${icon}</i>
                         <h4>${d.name}</h4>
                         <p>${d.description}</p>
                         ${type}
-                        `
+                        </div>`
                         div.appendChild(deviceDiv);
                         this.crearBotones(deviceDiv,div,d);
 
@@ -129,7 +129,7 @@ class Main implements EventListenerObject{
 
         // Creamos el boton para editar como modal
         const a = document.createElement("a");
-        a.className = "waves-effect waves-teal btn-flat modal-trigger";
+        a.className = "waves-effect waves-light btn modal-trigger blue";
         a.href = `#${modal_id}`;
         a.textContent = "Editar";
 
@@ -187,7 +187,7 @@ class Main implements EventListenerObject{
 
         // Creamos el boton para eliminar
         const buttonEliminar = document.createElement("button");
-        buttonEliminar.className="waves-effect waves-teal btn-flat";
+        buttonEliminar.className="waves-effect waves-light btn modal-trigger blue";
         buttonEliminar.textContent = "Eliminar";
 
         //cuando hacemos clic llama a la funcion
@@ -310,9 +310,7 @@ class Main implements EventListenerObject{
     handleEvent(object: Event): void {
         let elemento = <HTMLElement> object.target;
         console.log(elemento.id)
-        if("btnRefresh" === elemento.id){
-            this.showDevices();
-        }else if("btnAgregar" === elemento.id){
+        if("btnAgregar" === elemento.id){
             this.agregarDevice();
         }else if(elemento.id.startsWith("cb_")){ //elemento.checked para saber si esta en true o false
             let checkbox = <HTMLInputElement>elemento; //casteamos
@@ -333,9 +331,6 @@ window.addEventListener("load",  ()=> {
 
     // Creamos una instancia de la clase Main
     let main: Main = new Main();
-
-    let botonRefresh = document.getElementById("btnRefresh")
-    botonRefresh.addEventListener("click",main)
 
     let botonAgregar = document.getElementById("btnAgregar")
     botonAgregar.addEventListener("click",main)
