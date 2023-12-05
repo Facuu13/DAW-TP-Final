@@ -129,7 +129,7 @@ class Main implements EventListenerObject{
 
         // Creamos el boton para editar como modal
         const a = document.createElement("a");
-        a.className = "waves-effect waves-light btn modal-trigger blue";
+        a.className = "waves-effect waves-light btn modal-trigger transparent";
         a.href = `#${modal_id}`;
         a.textContent = "Editar";
 
@@ -187,7 +187,7 @@ class Main implements EventListenerObject{
 
         // Creamos el boton para eliminar
         const buttonEliminar = document.createElement("button");
-        buttonEliminar.className="waves-effect waves-light btn modal-trigger blue";
+        buttonEliminar.className="waves-effect waves-light btn modal-trigger transparent";
         buttonEliminar.textContent = "Eliminar";
 
         //cuando hacemos clic llama a la funcion
