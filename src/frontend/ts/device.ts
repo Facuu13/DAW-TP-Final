@@ -4,4 +4,5 @@ class Device{
     description: string;
     state: number;
     type: number;
+    intensity:number;
 }

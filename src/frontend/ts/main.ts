@@ -37,7 +37,7 @@ class Main implements EventListenerObject{
                         //dependiendo del estado, se va ir alternando el icono de encendido o apagado
                         const icon= d.state ? 'flash_on' : 'flash_off';;
 
-
+                        console.log(d.intensity);
                         type = `
                         <div class="switch">
                             <label class=label-checkbox>
@@ -258,7 +258,7 @@ class Main implements EventListenerObject{
     }
 
     //Funcion para ejecutar el metodo POST para actualizar el state de los dispositivo
-    private ejecutarPost2(id:number,state:boolean){
+    private ejecutarPostState(id:number,state:boolean){
         let xmlRequest = new XMLHttpRequest();
         xmlRequest.onreadystatechange = ()=> {
             if(xmlRequest.readyState == 4){
@@ -272,6 +272,24 @@ class Main implements EventListenerObject{
         xmlRequest.setRequestHeader("Content-Type","application/json"); //se indica el formato en el que se va enviar la informacion
         let s = {id:id,
                 state:state};
+        xmlRequest.send(JSON.stringify(s));
+    }
+
+    //Funcion para ejecutar el metodo POST para actualizar el intensity de los dispositivo
+    private ejecutarPostIntensity(id:number,intensity:number){
+        let xmlRequest = new XMLHttpRequest();
+        xmlRequest.onreadystatechange = ()=> {
+            if(xmlRequest.readyState == 4){
+                if(xmlRequest.status == 200){
+                    console.log("llego respuesta",xmlRequest.responseText);
+                }
+            }
+
+        }
+        xmlRequest.open("POST","http://localhost:8000/deviceState",true); //lo ponemos en true para que se ejecute de forma asincrona
+        xmlRequest.setRequestHeader("Content-Type","application/json"); //se indica el formato en el que se va enviar la informacion
+        let s = {id:id,
+                intensity:intensity};
         xmlRequest.send(JSON.stringify(s));
     }
 
@@ -315,7 +333,7 @@ class Main implements EventListenerObject{
         }else if(elemento.id.startsWith("cb_")){ //elemento.checked para saber si esta en true o false
             let checkbox = <HTMLInputElement>elemento; //casteamos
             console.log(checkbox.checked,elemento.id.substring(3,4))
-            this.ejecutarPost2(Number(elemento.id.substring(3,elemento.id.length)),checkbox.checked);
+            this.ejecutarPostState(Number(elemento.id.substring(3,elemento.id.length)),checkbox.checked);
             this.showDevices(); //refresh
         }
     }
