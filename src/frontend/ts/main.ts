@@ -286,7 +286,7 @@ class Main implements EventListenerObject{
             }
 
         }
-        xmlRequest.open("POST","http://localhost:8000/deviceState",true); //lo ponemos en true para que se ejecute de forma asincrona
+        xmlRequest.open("POST","http://localhost:8000/deviceIntensity",true); //lo ponemos en true para que se ejecute de forma asincrona
         xmlRequest.setRequestHeader("Content-Type","application/json"); //se indica el formato en el que se va enviar la informacion
         let s = {id:id,
                 intensity:intensity};

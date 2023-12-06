@@ -54,6 +54,17 @@ app.post('/deviceState',(req,res,next)=>{
     }
 });
 
+// app_post para actualizar el intensity de un dispositivo
+app.post('/deviceIntensity',(req,res,next)=>{
+    console.log("Recibida solicitud POST actualizar la intensidad del device");
+    utils.query("UPDATE Devices SET intensity = "+req.body.intensity+" WHERE id = "+req.body.id);
+    if(req.body.name == ""){
+        res.status(409).send("no tengo nada que hacer")
+    }else{
+        res.status(200).send("Se actualizo ela intensidad del dispositivo")
+    }
+});
+
 app.delete('/devices/:id',(req,res,next)=>{
     console.log("Recibida solicitud DELETE: ",req.params.id);
     utils.query("select id from Devices where id =" + req.params.id,(err,rsp,fields)=>{
