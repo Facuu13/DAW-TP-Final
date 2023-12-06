@@ -33,11 +33,11 @@ class Main implements EventListenerObject{
                         deviceDiv.id = deviceId;
                         // Generamos un ID único para el checkbox basado en el ID del dispositivo
                         const checkboxId = `cb_${d.id}`;
+                        const rangeId = `rg_${d.id}`;
 
                         //dependiendo del estado, se va ir alternando el icono de encendido o apagado
                         const icon= d.state ? 'flash_on' : 'flash_off';;
 
-                        console.log(d.intensity);
                         type = `
                         <div class="switch">
                             <label class=label-checkbox>
@@ -50,7 +50,7 @@ class Main implements EventListenerObject{
                         if(d.type == 1){
                             type += `<form action="#">
                             <p class="range-field">
-                                <input type="range" id="test5" min="0" max="100" ${isDisabled}/>
+                                <input type="range" id="${rangeId}" min="0" max="1" step="0.1" value="${d.intensity}" ${isDisabled}/>
                             </p>
                             </form>`
                         }
