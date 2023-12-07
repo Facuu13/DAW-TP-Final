@@ -34,7 +34,7 @@ app.put('/devices/:id',(req,res,next)=>{
 // app_post para agregar un nuevo dispositivo
 app.post('/device',(req,res,next)=>{
     console.log("Recibida solicitud POST para agregar un nuevo device");
-    utils.query("INSERT INTO Devices VALUES ('" + 0 + "','" + req.body.name + "', '" + req.body.description + "','" + req.body.state + "','" + req.body.type + "' )",(err,rsp,fields)=>{
+    utils.query("INSERT INTO Devices VALUES ('" + 0 + "','" + req.body.name + "', '" + req.body.description + "','" + req.body.state + "','" + req.body.type + "','" + req.body.intensity + "' )",(err,rsp,fields)=>{
         if(err==null){
             res.status(200).send("Se agrego el device correctamente");
         }else{
