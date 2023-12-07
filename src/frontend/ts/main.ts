@@ -35,8 +35,8 @@ class Main implements EventListenerObject{
                         // Generamos un ID único para el checkbox basado en el ID del dispositivo
                         const checkboxId = `cb_${d.id}`;
                         // Generamos un ID único para el range basado en el ID del dispositivo
+                        
                         const rangeId = `rg_${d.id}`;
-
                         //dependiendo del estado, se va ir alternando el icono de encendido o apagado
                         const icon= d.state ? 'flash_on' : 'flash_off';;
 
@@ -50,6 +50,7 @@ class Main implements EventListenerObject{
                             </label>
                         </div>`
                         if(d.type == 1){
+                            
                             type += `<form action="#">
                             <p class="range-field">
                                 <input type="range" id="${rangeId}" min="0" max="1" step="0.1" value="${d.intensity}" ${isDisabled}/>
@@ -72,6 +73,10 @@ class Main implements EventListenerObject{
                         let checkbox = document.getElementById(`cb_${d.id}`);
                         checkbox.addEventListener("click",this);
                         
+                        if(d.type == 1){
+                            let range = document.getElementById(`rg_${d.id}`);
+                            range.addEventListener("change",this);
+                        }
                     }
                 }
                     
@@ -356,11 +361,12 @@ class Main implements EventListenerObject{
             console.log(checkbox.checked,elemento.id.substring(3,4))
             this.ejecutarPostState(Number(elemento.id.substring(3,elemento.id.length)),checkbox.checked);
             this.showDevices(); //refresh
-        }/*
-        else if(elemento.id.startsWith("rg_")){
-            console.log("dentro del range")
-            this.ejecutarPostIntensity(Number(elemento.id.substring(3,elemento.id.length)),0.7)
-        }*/
+        }else if(elemento.id.startsWith("rg_")){
+            let range = <HTMLInputElement>elemento; //casteamos
+            console.log(range.value);
+            this.ejecutarPostIntensity(Number(elemento.id.substring(3,elemento.id.length)),Number(range.value))
+            this.showDevices(); //refresh
+        }
     }
 
 }
