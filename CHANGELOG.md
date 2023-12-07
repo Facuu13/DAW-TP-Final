@@ -1,42 +1,27 @@
 # DAW Base App - Changes Log
 
-All notable changes to this project will be documented in this file.
+Todos los cambios notables en este proyecto se documentarán en este archivo.
 
-The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
+El formato se basa en [Keep a Changelog](http://keepachangelog.com/) y este proyecto se adhiere al [Semantic Versioning](http://semver.org/).
 
 
-## 2.2.0
+## 1.1
 
-* Project modification
-    * Adds TypeScript compiler service to Docker Compose
-    * Reestructures frontend folder for TypeScript
-    * Adds new info to README accordingly
-    * Changes project architecture image
+* Base de datos:
+    * Se agrego a la tabla **Devices** un nuevo campo llamado **intensity** para poder manejar la intensidad de los dispositivos
+* Backend:
+    * Se actualizaron los metodos para que se pueda manejar esta nueva caracteristica.
+* Frontend:
+    * Se hicieron las modificaciones pertinentes para que se pueda manejar la intensidad, esto se va a poder manejar desde el range.
 
-## 2.1.0
+## 1.0
 
-* Project modification
-    * Enhaces README accordingly to Goto IoT
-    * Adds example of finished application
-    * Removes unnecessary frontend images
-    * Changes src code folders names
-
-## 2.0.0
-
-* Project modification
-    * Changes project and organization names
-    * Removes Typescript container
-    * Removes Typescript Code
-    * Executes Javascript code directly
-    * Changes licence to MIT
-    * Modifies README accordingly
-
-## 1.0.0
-
-* Project creation
-    * Docker Compose implementation for whole project.
-    * Typescript compilation into docker-compose.
-    * MySQL 5.7 DB Server.
-    * PHPMyAdmin.
-    * NodeJS backend application.
-    * Materialize CSS framework.
+* Backend:
+    * Funcionalidad para borrar un dispositivo.
+    * Funcionalidad para agregar un nuevo dispositivo.
+    * Tener la posibilidad desde el backend de no solo actualizar el valor del estado, sino de actualizar cualquier valor.
+* Frontend:
+    * Edición de dispositivos existentes. Nombre, descripción, tipo.
+    * Posibilidad de agregar o quitar dispositivos.
+    * Posibilidad de indicar qué valores de estado puede asumir el dispositivo.
+    * También se implemento un range pero no tiene ningun efecto, solo estetico.
