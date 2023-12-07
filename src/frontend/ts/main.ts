@@ -166,37 +166,42 @@ class Main implements EventListenerObject{
 
         let intensity_id : string;
         intensity_id = `eIntensidad${deviceDiv.id}`;
+        
+        let estado_device = d.state ? 'Encendido' : 'Apagado';
 
+        let manejar_intensidad = d.type ? 'Si' : 'No';
         // se generala el html del modal de manera dinamica para cada device
         const htmlModal = `
         <div id="${modal_id}" class="modal" style="display: none;">
             <div class="modal-content">
                 <h4>Editar dispositivo</h4>
-                    <div class="input-field">
+                    <div>
                         <label for="${name_id}">Nombre del dispositivo</label>
-                        <input id="${name_id}" type="text" placeholder="Lampara 2" value="" />
+                        <input id="${name_id}" type="text" value="${d.name}" />
                     </div>
-                    <div class="input-field">
+                    <div >
                         <label for="${desc_id}">Descripción del dispositivo</label>
-                        <input id="${desc_id}" type="text" placeholder="Luz living" value="" />
+                        <input id="${desc_id}" type="text"  value="${d.description}" />
                     </div>
-                    <div class="input-field">
+                    <div>
+                    <label>Estado del dispositivo</label>
                         <select id="${state_id}">
-                            <option value="" disabled selected>Estado del dispositivo</option>
+                            <option value="" disable selected>${estado_device}</option>
                             <option value="0">Apagado</option>
                             <option value="1">Encendido</option>
                         </select>
                     </div>
-                    <div class="input-field">
+                    <div>
+                    <label>Manejar intensidad?</label>
                         <select id="${type_id}">
-                            <option value="" disabled selected>Manejar intensidad?</option>
+                            <option value="" disable selected>${manejar_intensidad}</option>
                             <option value="0">No</option>
                             <option value="1">Si</option>
                         </select>
                     </div>
-                    <div class="input-field">
+                    <div>
                             <label for="${intensity_id}">Intensidad</label>
-                            <input id="${intensity_id}" type="number" placeholder="0.2" value="" />
+                            <input id="${intensity_id}" type="number" value="${d.intensity}" />
                         </div>
             </div>
             <div class="modal-footer">
