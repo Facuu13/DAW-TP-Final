@@ -88,28 +88,26 @@ class Main implements EventListenerObject{
     }
 
     //Funcion para editar los valores de un dispositivos
-    private editarDevice(device:Device,name_id:string,desc_id:string,state_id:string,type_id:string,intensity_id:string){
+    private editarDevice(device:Device,name_id:string,desc_id:string,state_id:string,type_id:string){
         // Obtener el elemento input por su ID
         const nombre = document.getElementById(`${name_id}`) as HTMLInputElement;
         const description = document.getElementById(`${desc_id}`) as HTMLInputElement;
         // Obtener el elemento select por su ID
         const state = document.getElementById(`${state_id}`) as HTMLSelectElement;
         const type = document.getElementById(`${type_id}`) as HTMLSelectElement;
-        // Obtener el elemento input por su ID
-        const intensity = document.getElementById(`${intensity_id}`) as HTMLInputElement;
-        console.log(intensity.value);
+
         //Obtenemos los valores
         const n = nombre.value;
         const d = description.value;
         const s = Number(state.value);
         const t = Number(type.value);
-        const i = Number(intensity.value);
+
         //actualizamos los valores
         this.device.name = n;
         this.device.description = d;
         this.device.state = s;
         this.device.type =t;
-        this.device.intensity = i;
+
 
         this.ejecutarPUT(this.device,device.id); //llamamos al metodo put para actualizar los valores
         this.showDevices();//refresh   
@@ -164,9 +162,6 @@ class Main implements EventListenerObject{
         let type_id : string;
         type_id = `eType${deviceDiv.id}`;
 
-        let intensity_id : string;
-        intensity_id = `eIntensidad${deviceDiv.id}`;
-        
         let estado_device = d.state ? 'Encendido' : 'Apagado';
 
         let manejar_intensidad = d.type ? 'Si' : 'No';
@@ -199,10 +194,6 @@ class Main implements EventListenerObject{
                             <option value="1">Si</option>
                         </select>
                     </div>
-                    <div>
-                            <label for="${intensity_id}">Intensidad</label>
-                            <input id="${intensity_id}" type="number" value="${d.intensity}" />
-                        </div>
             </div>
             <div class="modal-footer">
                 <a href="#!" class="modal-close waves-effect waves-green btn-flat">Cancelar</a>
@@ -239,7 +230,7 @@ class Main implements EventListenerObject{
         //Asignamos la funcion al boton guardar de editar
         let botonEditar = document.getElementById(btn_edit_id)
         botonEditar.addEventListener("click",()=>{
-            this.editarDevice(d,name_id,desc_id,state_id,type_id,intensity_id);
+            this.editarDevice(d,name_id,desc_id,state_id,type_id);
         })
     }
 
