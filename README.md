@@ -159,8 +159,19 @@ En esta sección podés ver los detalles específicos de funcionamiento del cód
 ### Agregar un dispositivo
 
 1. En la siguiente imagen se puede observar la vista del tablero, hacemos clic en **Agregar Dispositivo**
-
 ![architecture](doc/agregar_1.png)
+2. Luego se va abrir un popup en el que se va a poder ingresar los datos del nuevo dispositivo:
+    - Nombre del dispositivo.
+    - Descripcion del dispositivo.
+    - Estado.
+    - Si queremos manejar la intensidad del dispositivo.
+    - Intensidad (numero que va de 0 a 1, con pasos de 0.1)
+![architecture](doc/agregar_2.png)
+3. El proximo paso es llenar los datos del nuevo dispositivo y hacer clic en **Guardar**, en caso de no querer guardar el nuevo dispositivo apretamos **Cancelar**
+![architecture](doc/agregar_3.png)
+4. Como se ve en la siguiente imagen, el dispositivo agregado se puede observar en el tablero.
+![architecture](doc/agregar_4.png)
+
 
 ### Frontend
 
