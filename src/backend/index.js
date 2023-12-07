@@ -18,9 +18,9 @@ app.put('/devices/:id',(req,res,next)=>{
     console.log("Recibida solicitud PUT" , deviceId);
     utils.query("select id from Devices where id =" + req.params.id,(err,rsp,fields)=>{
         if(err==null){
-            const { name, description, state, type } = req.body; // Obtener los datos actualizados desde el cuerpo de la solicitud
+            const { name, description, state, type, intensity } = req.body; // Obtener los datos actualizados desde el cuerpo de la solicitud
             // Construimos la consulta SQL 
-            const sqlQuery = `UPDATE Devices SET name='${name}', description='${description}', state='${state}', type='${type}' WHERE id=${deviceId}`;
+            const sqlQuery = `UPDATE Devices SET name='${name}', description='${description}', state='${state}', type='${type}', intensity='${intensity}' WHERE id=${deviceId}`;
             utils.query(sqlQuery);
             res.status(200).send("Se actualizo el device correctamente");
         }else{
