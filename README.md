@@ -5,6 +5,10 @@
 Web App Full Stack Base
 =======================
 
+# ¡Hola! 👋
+
+El trabajo fue realizado por **Facundo Andrioli Villa**.
+
 *Ayudaría mucho si apoyaras este proyecto con una ⭐ en Github!*
 
 Este proyecto es una aplicación web fullstack que se ejecuta sobre el ecosistema `Docker`. Está compuesta por un compilador de `TypeScript` que te permite utilizar este superset de JavaScript para poder programar un `cliente web`. También tiene un servicio en `NodeJS` que te permite ejecutar código en backend y al mismo tiempo disponibilizar el código del cliente web para interactar con el servicio. Además tiene una `base de datos` MySQL que puede interactuar con el backend para guardar y consultar datos, y de manera adicional trae un `administrador` de base de datos para poder administrar la base en caso que lo necesites.

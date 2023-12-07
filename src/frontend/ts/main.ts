@@ -31,12 +31,14 @@ class Main implements EventListenerObject{
                         let deviceDiv = document.createElement("div"); 
                         deviceDiv.className = "col s12 m6 lg3";
                         deviceDiv.id = deviceId;
+
                         // Generamos un ID único para el checkbox basado en el ID del dispositivo
                         const checkboxId = `cb_${d.id}`;
-
+                        // Generamos un ID único para el range basado en el ID del dispositivo
+                        
+                        const rangeId = `rg_${d.id}`;
                         //dependiendo del estado, se va ir alternando el icono de encendido o apagado
                         const icon= d.state ? 'flash_on' : 'flash_off';;
-
 
                         type = `
                         <div class="switch">
@@ -48,9 +50,10 @@ class Main implements EventListenerObject{
                             </label>
                         </div>`
                         if(d.type == 1){
+                            
                             type += `<form action="#">
                             <p class="range-field">
-                                <input type="range" id="test5" min="0" max="100" ${isDisabled}/>
+                                <input type="range" id="${rangeId}" min="0" max="1" step="0.1" value="${d.intensity}" ${isDisabled}/>
                             </p>
                             </form>`
                         }
@@ -66,8 +69,14 @@ class Main implements EventListenerObject{
                     }
 
                     for(let d of datos){
+                        
                         let checkbox = document.getElementById(`cb_${d.id}`);
                         checkbox.addEventListener("click",this);
+                        
+                        if(d.type == 1){
+                            let range = document.getElementById(`rg_${d.id}`);
+                            range.addEventListener("change",this);
+                        }
                     }
                 }
                     
@@ -86,16 +95,19 @@ class Main implements EventListenerObject{
         // Obtener el elemento select por su ID
         const state = document.getElementById(`${state_id}`) as HTMLSelectElement;
         const type = document.getElementById(`${type_id}`) as HTMLSelectElement;
+
         //Obtenemos los valores
         const n = nombre.value;
         const d = description.value;
         const s = Number(state.value);
         const t = Number(type.value);
+
         //actualizamos los valores
         this.device.name = n;
         this.device.description = d;
         this.device.state = s;
         this.device.type =t;
+
 
         this.ejecutarPUT(this.device,device.id); //llamamos al metodo put para actualizar los valores
         this.showDevices();//refresh   
@@ -150,29 +162,34 @@ class Main implements EventListenerObject{
         let type_id : string;
         type_id = `eType${deviceDiv.id}`;
 
+        let estado_device = d.state ? 'Encendido' : 'Apagado';
+
+        let manejar_intensidad = d.type ? 'Si' : 'No';
         // se generala el html del modal de manera dinamica para cada device
         const htmlModal = `
         <div id="${modal_id}" class="modal" style="display: none;">
             <div class="modal-content">
                 <h4>Editar dispositivo</h4>
-                    <div class="input-field">
+                    <div>
                         <label for="${name_id}">Nombre del dispositivo</label>
-                        <input id="${name_id}" type="text" placeholder="Lampara 2" value="" />
+                        <input id="${name_id}" type="text" value="${d.name}" />
                     </div>
-                    <div class="input-field">
+                    <div >
                         <label for="${desc_id}">Descripción del dispositivo</label>
-                        <input id="${desc_id}" type="text" placeholder="Luz living" value="" />
+                        <input id="${desc_id}" type="text"  value="${d.description}" />
                     </div>
-                    <div class="input-field">
+                    <div>
+                    <label>Estado del dispositivo</label>
                         <select id="${state_id}">
-                            <option value="" disabled selected>Estado del dispositivo</option>
+                            <option value="" disable selected>${estado_device}</option>
                             <option value="0">Apagado</option>
                             <option value="1">Encendido</option>
                         </select>
                     </div>
-                    <div class="input-field">
+                    <div>
+                    <label>Manejar intensidad?</label>
                         <select id="${type_id}">
-                            <option value="" disabled selected>Manejar intensidad?</option>
+                            <option value="" disable selected>${manejar_intensidad}</option>
                             <option value="0">No</option>
                             <option value="1">Si</option>
                         </select>
@@ -226,16 +243,21 @@ class Main implements EventListenerObject{
         const state = document.getElementById("iState") as HTMLSelectElement;
         const type = document.getElementById("iType") as HTMLSelectElement;
 
+        // Obtener el elemento input por su ID
+        const intensity = document.getElementById("iIntensidad") as HTMLInputElement;
+  
         //Obtenemos los valores del modal
         const n = nombre.value;
         const d = description.value;
         const s = Number(state.value);
         const t = Number(type.value);
+        const i = Number(intensity.value);
 
         this.device.name = n;
         this.device.description = d;
         this.device.state = s;
         this.device.type =t;
+        this.device.intensity = i;
 
         this.ejecutarPost(this.device); //llamamos al metodo post para agregar el nuevo dispositivo
         this.showDevices();//refresh
@@ -258,7 +280,7 @@ class Main implements EventListenerObject{
     }
 
     //Funcion para ejecutar el metodo POST para actualizar el state de los dispositivo
-    private ejecutarPost2(id:number,state:boolean){
+    private ejecutarPostState(id:number,state:boolean){
         let xmlRequest = new XMLHttpRequest();
         xmlRequest.onreadystatechange = ()=> {
             if(xmlRequest.readyState == 4){
@@ -272,6 +294,24 @@ class Main implements EventListenerObject{
         xmlRequest.setRequestHeader("Content-Type","application/json"); //se indica el formato en el que se va enviar la informacion
         let s = {id:id,
                 state:state};
+        xmlRequest.send(JSON.stringify(s));
+    }
+
+    //Funcion para ejecutar el metodo POST para actualizar el intensity de los dispositivo
+    private ejecutarPostIntensity(id:number,intensity:number){
+        let xmlRequest = new XMLHttpRequest();
+        xmlRequest.onreadystatechange = ()=> {
+            if(xmlRequest.readyState == 4){
+                if(xmlRequest.status == 200){
+                    console.log("llego respuesta",xmlRequest.responseText);
+                }
+            }
+
+        }
+        xmlRequest.open("POST","http://localhost:8000/deviceIntensity",true); //lo ponemos en true para que se ejecute de forma asincrona
+        xmlRequest.setRequestHeader("Content-Type","application/json"); //se indica el formato en el que se va enviar la informacion
+        let s = {id:id,
+                intensity:intensity};
         xmlRequest.send(JSON.stringify(s));
     }
 
@@ -315,7 +355,12 @@ class Main implements EventListenerObject{
         }else if(elemento.id.startsWith("cb_")){ //elemento.checked para saber si esta en true o false
             let checkbox = <HTMLInputElement>elemento; //casteamos
             console.log(checkbox.checked,elemento.id.substring(3,4))
-            this.ejecutarPost2(Number(elemento.id.substring(3,elemento.id.length)),checkbox.checked);
+            this.ejecutarPostState(Number(elemento.id.substring(3,elemento.id.length)),checkbox.checked);
+            this.showDevices(); //refresh
+        }else if(elemento.id.startsWith("rg_")){
+            let range = <HTMLInputElement>elemento; //casteamos
+            console.log(range.value);
+            this.ejecutarPostIntensity(Number(elemento.id.substring(3,elemento.id.length)),Number(range.value))
             this.showDevices(); //refresh
         }
     }
