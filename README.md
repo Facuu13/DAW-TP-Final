@@ -15,7 +15,7 @@ Realizando estas tareas vas a a tener una aplicación fullstack IoT del mundo re
 
 En esta imagen podés ver una posible implementación del cliente web que controla los artefactos del hogar.
 
-![architecture](doc/webapp-example-1.png)
+![architecture](doc/webapp_1.png)
 
 ## Comenzando 🚀
 
@@ -163,8 +163,8 @@ En esta sección podés ver los detalles específicos de funcionamiento del cód
 2. Luego se va abrir un popup en el que se va a poder ingresar los datos del nuevo dispositivo:
     - Nombre del dispositivo.
     - Descripcion del dispositivo.
-    - Estado.
-    - Si queremos manejar la intensidad del dispositivo.
+    - Estado (Encendido o Apagado).
+    - Si queremos manejar la intensidad del dispositivo (Si o No). 
     - Intensidad (numero que va de 0 a 1, con pasos de 0.1)
 ![architecture](doc/agregar_2.png)
 3. El proximo paso es llenar los datos del nuevo dispositivo y hacer clic en **Guardar**, en caso de no querer guardar el nuevo dispositivo apretamos **Cancelar**
@@ -175,7 +175,31 @@ En esta sección podés ver los detalles específicos de funcionamiento del cód
 
 ### Frontend
 
-Completá todos los detalles sobre cómo armaste el frontend, sus interacciones, etc.
+El tablero de dispositivos se ve de la siguiente manera:
+![architecture](doc/webapp_1.png)
+- En la imagen anterior se puede observar una lista de los dispositivos que estan disponibles.
+- Se puede observar al principio de la pagina un boton llamado **Agregar Dispositivo**, el cual es un modal, por ende se va abrir un **popup** y vamos a poder ingresar los datos del nuevo dispositivo. El funcionamiento de este boton se explico en el punto anterior.
+- Cuando se inicia la pagina se llama a una funcion **showDevices** que nos va a permitir visualizar los dispositivos que estan agregados en la base de datos. Estas tarjetitas de devices se van a generar dinamicamente.
+- El div de este tablaro va estar definido por **"col s12 m6 lg3"** por lo que:
+    - En pantallas pequeñas veremos un dispositivo.
+    - En pantallas medianas veremos dos dispositivos.
+    - En pantallas grandes veremos cuatros dispositivos.
+- Estas tarjetas de devices estan conformado por lo siguiente:
+    - Nombre del dispositivo.
+    - Descripcion del dispositivo.
+    - Estado.
+    - Un range que nos permite manejar la intensidad del dispositivo.
+    - Un boton **Eliminar** para borrar el dispositivo.
+    - Un boton **Editar** para editar los datos del dispositivo.
+
+        ![architecture](doc/device_1.png)
+
+- Cuando se haga clic en el boton **Eliminar** saldra un cartel de confirmacion para asegurar que estamos seguro de eliminarlo.
+    ![architecture](doc/eliminar_1.png)
+
+- El boton **Editar** es un modal, cuando se hace clic se abrirá un **popup** y nos mostrara los valores que tiene el dispositivo actualmente:
+    ![architecture](doc/editar_1.png)
+
 
 ### Backend
 
