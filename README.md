@@ -194,12 +194,17 @@ El tablero de dispositivos se ve de la siguiente manera:
 
         ![architecture](doc/device_1.png)
 
+- Dependiendo del estado del dispositivo el icono en forma de rayito va ir cambiando como se puede observar en la siguiente imagen:
+    
+    ![architecture](doc/device_2.png)
+
 - Cuando se haga clic en el boton **Eliminar** saldra un cartel de confirmacion para asegurar que estamos seguro de eliminarlo.
     ![architecture](doc/eliminar_1.png)
 
-- El boton **Editar** es un modal, cuando se hace clic se abrirá un **popup** y nos mostrara los valores que tiene el dispositivo actualmente:
+- El boton **Editar** es un modal, cuando se hace clic se abrirá un **popup** y nos mostrara los valores que tiene el dispositivo actualmente y podremos editarlos:
     ![architecture](doc/editar_1.png)
 
+- Por ultimo, cuando un dispositivo tenga disponible para manejar la intensidad si esta encendido el range va estar disponible, pero si este se encuentra apagado el range va a quedar deshabilitado.
 
 ### Backend
 
