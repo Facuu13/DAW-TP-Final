@@ -13,6 +13,7 @@ app.use(express.static('/home/node/app/static/'));
 
 //=======[ Main module code ]==================================================
 
+//metodo para actualizar los datos de un dispositivo.
 app.put('/devices/:id',(req,res,next)=>{
     const deviceId = req.params.id; // Obtener el ID del dispositivo desde la URL
     console.log("Recibida solicitud PUT" , deviceId);
@@ -65,6 +66,7 @@ app.post('/deviceIntensity',(req,res,next)=>{
     }
 });
 
+// metodo para eliminar un dispositivo
 app.delete('/devices/:id',(req,res,next)=>{
     console.log("Recibida solicitud DELETE: ",req.params.id);
     utils.query("select id from Devices where id =" + req.params.id,(err,rsp,fields)=>{
@@ -80,6 +82,7 @@ app.delete('/devices/:id',(req,res,next)=>{
     });
 });
 
+// metodo para obtener los dispositivos
 app.get('/devices/',(req,res,next)=>{
     console.log("Recibida solicitud GET");
     utils.query("select * from Devices",(err,rsp,fields)=>{
@@ -94,6 +97,7 @@ app.get('/devices/',(req,res,next)=>{
     });
 });
 
+// metodo para obtener un dispositivo especifico
 app.get('/devices/:id',(req,res,next)=>{
     console.log("id",req.params.id);
     utils.query("select * from Devices where id="+req.params.id,(err,rsp,fields)=>{
