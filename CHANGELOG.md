@@ -4,6 +4,9 @@ Todos los cambios notables en este proyecto se documentarán en este archivo.
 
 El formato se basa en [Keep a Changelog](http://keepachangelog.com/) y este proyecto se adhiere al [Semantic Versioning](http://semver.org/).
 
+## 1.2
+* Documentacion:
+    * Se actualizo la documentacion en el archivo Readme.md
 
 ## 1.1
 

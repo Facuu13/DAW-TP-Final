@@ -208,31 +208,45 @@ El tablero de dispositivos se ve de la siguiente manera:
 
 ### Backend
 
-Completá todos los detalles de funcionamiento sobre el backend, sus interacciones con el cliente web, la base de datos, etc.
+#### Endpoints
 
-<details><summary><b>Ver los endpoints disponibles</b></summary><br>
+- GET:
+    - app.get('/devices/'): Nos va a devolver la lista de todos los dispositivos.
+    - app.get('/devices/:id'): Nos va a devolver el dispositivo que le indiquemos.
 
-Completá todos los endpoints del backend con los metodos disponibles, los headers y body que recibe, lo que devuelve, ejemplos, etc.
+- DELETE:
+    - app.delete('/devices/:id'): Se eliminara el dispositivo que le indiquiemos.
 
-1) Devolver el estado de los dispositivos.
+- POST:
+    - app.post('/device'): metodo para agregar un nuevo dispositivo.
+    - app.post('/deviceState'): metodo para actualizar el state de un dispositivo.
+    - app.post('/deviceIntensity'): metodo para actualizar el intensity de un dispositivo.
 
-```json
-{
-    "method": "get",
-    "request_headers": "application/json",
-    "request_body": "",
-    "response_code": 200,
-    "request_body": {
-        "devices": [
-            {
-                "id": 1,
-                "status": true,
-                "description": "Kitchen light"
-            }
-        ]
-    },
-}
-``` 
+- PUT:
+    - app.put('/devices/:id'): metodo para actualizar los datos de un dispositivo.
+
+#### Funciones
+
+Funciones que interacionan con el backend y el cliente web:
+
+- **private showDevices()**: funcion que sirve para mostrar los dispositivos en la pagina y para hacer un refresh.
+- **private ejecutarPost(device:Device)**: funcion para ejecutar el metodo POST para agregar un nuevo dispositivo.
+- **private ejecutarPostState(id:number,state:boolean)**: funcion para ejecutar el metodo POST para actualizar el state de los dispositivo.
+- **private ejecutarPostIntensity(id:number,intensity:number)**: funcion para ejecutar el metodo POST para actualizar el intensity de los dispositivo.
+- **private ejecutarDelete(id:string)**: funcion para ejecutar el metodo DELETE para eliminar un dispositivo
+- **private ejecutarPUT(device:Device,id:number)**: funcion para ejecutar el metodo PUT para actualizar los datos de un dispositivo
+
+#### Base de datos
+
+Se agrego a la tabla **Devices** un nuevo campo llamado **intensity** para poder manejar la intensidad de los dispositivos
+
+La tabla **Devices** quedo conformada de la siguiente manera:
+- id
+- name
+- description
+- state
+- type
+- intensity
 
 </details>
 
